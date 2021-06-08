@@ -27,6 +27,29 @@ const updateValidation = (data) => {
     return schema.validate(data);
 };
 
-module.exports.registerValidation = registerValidation;
-module.exports.loginValidation = loginValidation;
-module.exports.updateValidation = updateValidation;
+const newPostValidation = (data) => {
+    const schema = Joi.object({
+        title: Joi.string().min(3).required(),
+        description: Joi.string().min(8).required(),
+        author: Joi.string().required(),
+        categories: Joi.array()
+    });
+    return schema.validate(data);
+};
+
+const updatePostValidation = (data) => {
+    const schema = Joi.object({
+        title: Joi.string().min(3),
+        description: Joi.string().min(8),
+        categories: Joi.array()
+    });
+    return schema.validate(data);
+};
+
+module.exports = {
+    registerValidation,
+    loginValidation,
+    updateValidation,
+    newPostValidation,
+    updatePostValidation
+}

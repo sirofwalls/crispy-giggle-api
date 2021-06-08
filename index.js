@@ -3,7 +3,8 @@ const mongoose = require('mongoose');
 const app = express();
 require('dotenv').config();
 const authRoute = require('./routes/auth');
-const userRoute = require('./routes/users')
+const userRoute = require('./routes/users');
+const postRoute = require('./routes/posts');
 
 app.use(express.json());
 
@@ -23,6 +24,7 @@ dbConnect().then(console.log('Database is connected')).catch(err => console.log(
 
 app.use('/api/auth', authRoute);
 app.use('/api/users', userRoute);
+app.use('/api/posts', postRoute);
 
 
 app.listen('5000', () => console.log('API Server is running.'));
