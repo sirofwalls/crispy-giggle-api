@@ -46,10 +46,18 @@ const updatePostValidation = (data) => {
     return schema.validate(data);
 };
 
+const newCategoryValidation = (data) => {
+    const schema = Joi.object({
+        name: Joi.string().min(4).required(),
+    });
+    return schema.validate(data);
+};
+
 module.exports = {
     registerValidation,
     loginValidation,
     updateValidation,
     newPostValidation,
-    updatePostValidation
+    updatePostValidation,
+    newCategoryValidation
 }
