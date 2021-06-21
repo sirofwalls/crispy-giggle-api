@@ -11,7 +11,7 @@ router.post('/register', async (req, res) => {
     if(error) return res.status(400).json(error.details[0].message);
 
     const emailExists = await User.findOne({email: req.body.email});
-    if(emailExists) return res.status(400).json('A User with that email already exists');
+    if(emailExists) return res.status(400).json({message: 'A User with that email already exists'});
 
     const salt = await bcrypt.genSalt(10);
     const hashPass = await bcrypt.hash(req.body.password, salt);
@@ -37,14 +37,14 @@ router.post('/login', async (req, res) =>{
     if(error) return res.status(400).json(error.details[0].message);
 
     const user = await User.findOne({username: req.body.username});
-    if (!user) return res.status(400).json("The login credentials are wrong");
+    if (!user) return res.status(400).json({message: "The login credentials are wrong"});
 
     const validPass = await bcrypt.compare(req.body.password, user.password);
-    if (!validPass) return res.status(400).json("The login credentials are wrong");
+    if (!validPass) return res.status(401).json({message: "The login credentials are wrong"});
 
     try {
         const token = await jwt.sign({_id: user._id}, process.env.JWT_SECRET);
-        res.header('auth-token', token).json("You are now logged in!");
+        res.header('auth-token', token).json({message:"You are now logged in!", token});
     } catch(err) {
         res.status(500).json(err);
     }
