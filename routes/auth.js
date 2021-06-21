@@ -24,10 +24,9 @@ router.post('/register', async (req, res) => {
 
     try{
         const user = await newUser.save();
-        const {password, ...others} = user._doc;
-        res.status(200).json(others)
+        res.status(200).json({message: 'You have been regitered.'})
     } catch (err) {
-        res.status(500).json(err)
+        res.status(500).json({errorMessage: 'There was an error. Contact the developer.'})
     }
 });
 
@@ -43,10 +42,39 @@ router.post('/login', async (req, res) =>{
     if (!validPass) return res.status(401).json({message: "The login credentials are wrong"});
 
     try {
-        const token = await jwt.sign({_id: user._id}, process.env.JWT_SECRET);
-        res.header('auth-token', token).json({message:"You are now logged in!", token});
+        const token = await jwt.sign({id: user._id}, process.env.JWT_SECRET);
+        res.status(200).cookie('token', token,
+        {httpOnly: true,
+        sameSite: process.env.ENV_DEVELOPMENT ?'lax' : 'none',
+        secure: process.env.ENV_DEVELOPMENT ? false : true}).json({message:"You are now logged in!"});
     } catch(err) {
         res.status(500).json(err);
+    }
+});
+
+//Check if logged In properly
+router.get('/loggedIn', (req, res) => {
+    try {
+        const token = req.cookies.token;
+
+        if (!token) return res.json(null);
+        const validUser = jwt.verify(token, process.env.JWT_SECRET);
+        res.json(validUser.id)
+    } catch (err) {
+        return res.json(null)
+        
+    }
+});
+
+router.get('/logout', (req, res) => {
+    try {
+        res.status(200).cookie('token', '',
+            {httpOnly: true,
+            sameSite: process.env.ENV_DEVELOPMENT ? 'lax' : 'true',
+            secure: process.env.ENV_DEVELOPMENT ? false : true,
+            expires: new Date(0)}).json({message: 'You have been logged out!'})
+    } catch (err) {
+        return res.json(null);
     }
 })
 

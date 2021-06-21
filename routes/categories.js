@@ -1,9 +1,10 @@
 const router = require('express').Router();
 const Category = require('../models/Category');
 const {newCategoryValidation} = require('../utils/validation');
+const verify = require('../utils/privateRoutes');
 
 //SAVE NEW CATEGORY (can only save one at a time currently)
-router.post('/', async (req, res) => {
+router.post('/', verify, async (req, res) => {
 
     const {error} = newCategoryValidation(req.body);
     if(error) return res.status(400).json(error.details[0].message);

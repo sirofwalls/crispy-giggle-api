@@ -1,6 +1,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const app = express();
+const cors = require('cors');
+const cookie = require('cookie-parser');
 require('dotenv').config();
 const authRoute = require('./routes/auth');
 const userRoute = require('./routes/users');
@@ -8,6 +10,9 @@ const postRoute = require('./routes/posts');
 const categoryRoute = require('./routes/categories');
 
 app.use(express.json());
+app.use(cors());
+app.use(cookie());
+
 
 const dbConnect = async () =>{
     try{
