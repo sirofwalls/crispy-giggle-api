@@ -71,7 +71,7 @@ router.delete('/:id', verify, async (req, res) => {
     const post = await Post.findById(req.params.id);
     if (!post) return res.status(404).json({message:"That post cannot be found"});
 
-    const canEdit = (validUser.username === post.author);
+    const canEdit = (validUser.id.toString() === post.author.toString());
     if(!canEdit) return res.status(401).json({message:"You can only delete your own posts!"});
 
     try{
