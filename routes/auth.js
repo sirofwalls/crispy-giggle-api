@@ -66,6 +66,7 @@ router.get('/loggedIn', (req, res) => {
     }
 });
 
+//Logout by sending empty replacement cookie that is expired
 router.get('/logout', (req, res) => {
     try {
         res.status(200).cookie('token', '',

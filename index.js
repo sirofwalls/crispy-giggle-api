@@ -10,7 +10,10 @@ const postRoute = require('./routes/posts');
 const categoryRoute = require('./routes/categories');
 
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+    origin: 'http://localhost:3000',
+    credentials:true
+}));
 app.use(cookie());
 
 

@@ -1,4 +1,5 @@
-const mongoose = require("mongoose")
+const mongoose = require("mongoose");
+const ObjectId = mongoose.Schema.Types.ObjectId;
 
 const PostSchema = new mongoose.Schema({
     title: {
@@ -14,7 +15,7 @@ const PostSchema = new mongoose.Schema({
         type: String,
     },
     author: {
-        type: String,
+        type: ObjectId,
         required: true
     },
     categories: {
