@@ -5,30 +5,30 @@ const jwt = require('jsonwebtoken');
 const {registerValidation, loginValidation} = require('../utils/validation');
 
 //REGISTER THE USER
-router.post('/register', async (req, res) => {
+// router.post('/register', async (req, res) => {
 
-    const {error} = registerValidation(req.body);
-    if(error) return res.status(400).json(error.details[0].message);
+//     const {error} = registerValidation(req.body);
+//     if(error) return res.status(400).json(error.details[0].message);
 
-    const emailExists = await User.findOne({email: req.body.email});
-    if(emailExists) return res.status(400).json({message: 'A User with that email already exists'});
+//     const emailExists = await User.findOne({email: req.body.email});
+//     if(emailExists) return res.status(400).json({message: 'A User with that email already exists'});
 
-    const salt = await bcrypt.genSalt(10);
-    const hashPass = await bcrypt.hash(req.body.password, salt);
+//     const salt = await bcrypt.genSalt(10);
+//     const hashPass = await bcrypt.hash(req.body.password, salt);
 
-    const newUser = new User({
-        username: req.body.username,
-        email: req.body.email,
-        password: hashPass
-    })
+//     const newUser = new User({
+//         username: req.body.username,
+//         email: req.body.email,
+//         password: hashPass
+//     })
 
-    try{
-        const user = await newUser.save();
-        res.status(200).json({message: 'You have been regitered.'})
-    } catch (err) {
-        res.status(500).json({errorMessage: 'There was an error. Contact the developer.'})
-    }
-});
+//     try{
+//         const user = await newUser.save();
+//         res.status(200).json({message: 'You have been regitered.'})
+//     } catch (err) {
+//         res.status(500).json({errorMessage: 'There was an error. Contact the developer.'})
+//     }
+// });
 
 //LOGIN THE USER (JWT ADDED)
 router.post('/login', async (req, res) =>{
