@@ -9,9 +9,11 @@ const userRoute = require('./routes/users');
 const postRoute = require('./routes/posts');
 const categoryRoute = require('./routes/categories');
 
+const PORT = process.env.PORT;
+
 app.use(express.json());
 app.use(cors({
-    origin: 'http://localhost:3000',
+    origin: process.env.CORS_ORIGIN,
     credentials:true
 }));
 app.use(cookie());
@@ -37,4 +39,4 @@ app.use('/api/posts', postRoute);
 app.use('/api/categories', categoryRoute);
 
 
-app.listen('5000', () => console.log('API Server is running.'));
+app.listen(PORT, () => console.log('API Server is running on port ' + PORT));
