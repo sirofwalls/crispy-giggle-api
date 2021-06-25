@@ -45,8 +45,8 @@ router.post('/login', async (req, res) =>{
         const token = await jwt.sign({id: user._id}, process.env.JWT_SECRET);
         res.status(200).cookie('token', token,
         {httpOnly: true,
-        sameSite: process.env.ENV_DEVELOPMENT ?'lax' : 'none',
-        secure: process.env.ENV_DEVELOPMENT ? false : true}).json({message:"You are now logged in!"});
+        sameSite: process.env.ENV_DEVELOPMENT === 'true' ?'lax' : 'none',
+        secure: process.env.ENV_DEVELOPMENT === 'true' ? false : true}).json({message:"You are now logged in!"});
     } catch(err) {
         res.status(500).json(err);
     }
@@ -71,8 +71,8 @@ router.get('/logout', (req, res) => {
     try {
         res.status(200).cookie('token', '',
             {httpOnly: true,
-            sameSite: process.env.ENV_DEVELOPMENT ? 'lax' : 'true',
-            secure: process.env.ENV_DEVELOPMENT ? false : true,
+            sameSite: process.env.ENV_DEVELOPMENT === 'true' ? 'lax' : 'true',
+            secure: process.env.ENV_DEVELOPMENT === 'true' ? false : true,
             expires: new Date(0)}).json({message: 'You have been logged out!'})
     } catch (err) {
         return res.json(null);
