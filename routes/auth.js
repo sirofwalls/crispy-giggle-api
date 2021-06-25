@@ -66,14 +66,10 @@ router.get('/loggedIn', (req, res) => {
     }
 });
 
-//Logout by sending empty replacement cookie that is expired
+//Logout User
 router.get('/logout', (req, res) => {
     try {
-        res.status(200).cookie('token', '',
-            {httpOnly: true,
-            sameSite: process.env.ENV_DEVELOPMENT === 'true' ? 'lax' : 'true',
-            secure: process.env.ENV_DEVELOPMENT === 'true' ? false : true,
-            expires: new Date(0)}).json({message: 'You have been logged out!'})
+        res.status(200).clearCookie('token').json({message: 'You have been logged out!'})
     } catch (err) {
         return res.json(null);
     }
