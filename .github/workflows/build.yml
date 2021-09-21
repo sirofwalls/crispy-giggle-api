@@ -19,3 +19,4 @@ jobs:
       # Runs a single command to build the docker image 
       - name: Docker image build
         run: docker build -t registry.local.wlsr.io/crispy_giggle_api .
+        run: docker push registry.local.wlsr.io/crispy_giggle_api
